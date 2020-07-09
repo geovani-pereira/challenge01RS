@@ -9,7 +9,17 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+
 const repositories = [];
+function validateRepositorieId(request,response,next){
+  const {id} = request.params;
+
+  if(!isUuid(id)){ 
+      return response.status(400).json({ error: "Invalid repositorie ID."}); 
+  }
+
+  return next();
+}
 
 app.get("/repositories", (request, response) => {
     return response.json({repositories});
@@ -27,7 +37,7 @@ app.post("/repositories", (request, response) => {
       return response.json({repositorie})
 });
 
-app.put("/repositories/:id", (request, response) => {
+app.put("/repositories/:id",validateProjectId, (request, response) => {
       const {id} = request.params;
       const {title} = request.body;
       const {url} = request.body;
@@ -56,7 +66,7 @@ app.put("/repositories/:id", (request, response) => {
       return response.json(repositorie);
 });
 
-app.delete("/repositories/:id", (request, response) => {
+app.delete("/repositories/:id",validateProjectId, (request, response) => {
     const { id } = request.params;
     const repositorieIndex = repositories.findIndex(repositorie => repositorie.id === id);
     if(repositorieIndex < 0){
@@ -68,7 +78,7 @@ app.delete("/repositories/:id", (request, response) => {
     return response.status(204).send();
 });
 
-app.post("/repositories/:id/like", (request, response) => {
+app.post("/repositories/:id/like",validateProjectId, (request, response) => {
     const {id} = request.params;
     const repositorieIndex = repositories.findIndex(repositorie => repositorie.id === id);
     if(repositorieIndex < 0){
