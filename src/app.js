@@ -9,6 +9,7 @@ app.use(cors());
 
 
 const repositories = [];
+
 function validateRepositorieId(request,response,next){
   const {id} = request.params;
 
@@ -82,11 +83,11 @@ app.post("/repositories/:id/like",validateRepositorieId, (request, response) => 
     if(repositorieIndex < 0){
       return response.status(400).json({error: "Repository not found."});
     }
+    //const repositorie = repositories[repositorieIndex]; //dúvida porque atribuiu likes para uma const
     let repositorie = repositories[repositorieIndex];
-
     let likes = repositorie.likes +1;
     repositorie.likes = likes;
-    console.log(repositorie);
+    
 
     repositories[repositorieIndex] = repositorie;
  
