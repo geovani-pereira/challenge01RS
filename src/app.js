@@ -2,8 +2,6 @@ const express = require("express");
 const cors = require("cors");
 const { uuid, isUuid } = require('uuidv4');
 
-// const { uuid } = require("uuidv4");
-
 const app = express();
 
 app.use(express.json());
@@ -37,7 +35,7 @@ app.post("/repositories", (request, response) => {
       return response.json({repositorie})
 });
 
-app.put("/repositories/:id",validateProjectId, (request, response) => {
+app.put("/repositories/:id",validateRepositorieId, (request, response) => {
       const {id} = request.params;
       const {title} = request.body;
       const {url} = request.body;
@@ -66,7 +64,7 @@ app.put("/repositories/:id",validateProjectId, (request, response) => {
       return response.json(repositorie);
 });
 
-app.delete("/repositories/:id",validateProjectId, (request, response) => {
+app.delete("/repositories/:id",validateRepositorieId, (request, response) => {
     const { id } = request.params;
     const repositorieIndex = repositories.findIndex(repositorie => repositorie.id === id);
     if(repositorieIndex < 0){
@@ -78,7 +76,7 @@ app.delete("/repositories/:id",validateProjectId, (request, response) => {
     return response.status(204).send();
 });
 
-app.post("/repositories/:id/like",validateProjectId, (request, response) => {
+app.post("/repositories/:id/like",validateRepositorieId, (request, response) => {
     const {id} = request.params;
     const repositorieIndex = repositories.findIndex(repositorie => repositorie.id === id);
     if(repositorieIndex < 0){
