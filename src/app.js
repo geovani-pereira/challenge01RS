@@ -21,19 +21,19 @@ function validateRepositorieId(request,response,next){
 }
 
 app.get("/repositories", (request, response) => {
-    return response.json({repositories});
+    return response.json(repositories);
 });
 
 app.post("/repositories", (request, response) => {
       const {title} = request.body;
       const {url} = request.body;
       const {techs} = request.body;
-      const {likes} = request.body;
+      const likes = 0;
       
-      const repositorie = { id: uuid(),title, url, techs, likes}
-      repositories.push(repositorie);
+      const repository = { id: uuid(),title, url, techs, likes}
+      repositories.push(repository);
 
-      return response.json({repositorie})
+      return response.status(201).json(repository)
 });
 
 app.put("/repositories/:id",validateRepositorieId, (request, response) => {
@@ -62,7 +62,7 @@ app.put("/repositories/:id",validateRepositorieId, (request, response) => {
 
       repositories[repositorieIndex] = repositorie;
 
-      return response.json(repositorie);
+      return response.status(200).json(repositorie);
 });
 
 app.delete("/repositories/:id",validateRepositorieId, (request, response) => {
@@ -93,7 +93,7 @@ app.post("/repositories/:id/like",validateRepositorieId, (request, response) => 
  
 
    
-    return response.json({msg:"Like sucess!"});
+    return response.status(200).json({likes});
 
 });
 
